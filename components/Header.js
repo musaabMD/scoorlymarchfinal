@@ -1,178 +1,99 @@
-"use client";
+// File: src/components/Header.jsx
+import React from 'react';
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { CreditCard, Plus, Sparkles } from 'lucide-react';
 
-import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
-import Image from "next/image";
-import ButtonSignin from "./ButtonSignin";
-import logo from "@/app/icon.png";
-import config from "@/config";
-
-const links = [
-  {
-    href: "/#pricing",
-    label: "Pricing",
-  },
-  {
-    href: "/#testimonials",
-    label: "Reviews",
-  },
-  {
-    href: "/#faq",
-    label: "FAQ",
-  },
-];
-
-const cta = <ButtonSignin extraStyle="btn-primary" />;
-
-// A header with a logo on the left, links in the center (like Pricing, etc...), and a CTA (like Get Started or Login) on the right.
-// The header is responsive, and on mobile, the links are hidden behind a burger button.
-const Header = () => {
-  const searchParams = useSearchParams();
-  const [isOpen, setIsOpen] = useState(false);
-
-  // setIsOpen(false) when the route changes (i.e: when the user clicks on a link on mobile)
-  useEffect(() => {
-    setIsOpen(false);
-  }, [searchParams]);
-
+const Header = ({ activeTab, userExams, handleExamSelect, handleTabChange, loading, setShowAddExam }) => {
   return (
-    <header className="bg-base-200">
-      <nav
-        className="container flex items-center justify-between px-8 py-4 mx-auto"
-        aria-label="Global"
-      >
-        {/* Your logo/name on large screens */}
-        <div className="flex lg:flex-1">
-          <Link
-            className="flex items-center gap-2 shrink-0 "
-            href="/"
-            title={`${config.appName} hompage`}
-          >
-            <Image
-              src={logo}
-              alt={`${config.appName} logo`}
-              className="w-8"
-              placeholder="blur"
-              priority={true}
-              width={32}
-              height={32}
-            />
-            <span className="font-extrabold text-lg">{config.appName}</span>
-          </Link>
-        </div>
-        {/* Burger button to open menu on mobile */}
-        <div className="flex lg:hidden">
-          <button
-            type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5"
-            onClick={() => setIsOpen(true)}
-          >
-            <span className="sr-only">Open main menu</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6 text-base-content"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
-            </svg>
-          </button>
-        </div>
-
-        {/* Your links on large screens */}
-        <div className="hidden lg:flex lg:justify-center lg:gap-12 lg:items-center">
-          {links.map((link) => (
-            <Link
-              href={link.href}
-              key={link.href}
-              className="link link-hover"
-              title={link.label}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-
-        {/* CTA on large screens */}
-        <div className="hidden lg:flex lg:justify-end lg:flex-1">{cta}</div>
-      </nav>
-
-      {/* Mobile menu, show/hide based on menu state. */}
-      <div className={`relative z-50 ${isOpen ? "" : "hidden"}`}>
-        <div
-          className={`fixed inset-y-0 right-0 z-10 w-full px-8 py-4 overflow-y-auto bg-base-200 sm:max-w-sm sm:ring-1 sm:ring-neutral/10 transform origin-right transition ease-in-out duration-300`}
-        >
-          {/* Your logo/name on small screens */}
-          <div className="flex items-center justify-between">
-            <Link
-              className="flex items-center gap-2 shrink-0 "
-              title={`${config.appName} hompage`}
-              href="/"
-            >
-              <Image
-                src={logo}
-                alt={`${config.appName} logo`}
-                className="w-8"
-                placeholder="blur"
-                priority={true}
-                width={32}
-                height={32}
-              />
-              <span className="font-extrabold text-lg">{config.appName}</span>
-            </Link>
-            <button
-              type="button"
-              className="-m-2.5 rounded-md p-2.5"
-              onClick={() => setIsOpen(false)}
-            >
-              <span className="sr-only">Close menu</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
+    <div className="w-full bg-white border-b border-gray-200 fixed top-0 left-0 z-50">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center h-16">
+          <div className="flex-1 flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <span className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-lg font-bold rounded-md px-2 py-1">
+                S
+              </span>
+              <h1 className="text-xl font-bold hidden sm:block">Scoorly</h1>
+            </div>
+            <div className="h-6 w-px bg-gray-200 mx-2" />
+            <h2 className="text-base font-medium">
+              {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
+            </h2>
           </div>
 
-          {/* Your links on small screens */}
-          <div className="flow-root mt-6">
-            <div className="py-4">
-              <div className="flex flex-col gap-y-4 items-start">
-                {links.map((link) => (
-                  <Link
-                    href={link.href}
-                    key={link.href}
-                    className="link link-hover"
-                    title={link.label}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-            <div className="divider"></div>
-            {/* Your CTA on small screens */}
-            <div className="flex flex-col">{cta}</div>
+          <div className="flex items-center gap-2">
+            {userExams.length === 0 ? (
+              <Button 
+                onClick={() => setShowAddExam(true)}
+                className="animate-pulse bg-gradient-to-r from-green-500 to-blue-500 text-white px-3 flex items-center gap-2"
+                size="sm"
+              >
+                <Plus className="h-4 w-4" />
+                <span>Add Exam</span>
+                <Sparkles className="h-3 w-3 ml-1" />
+              </Button>
+            ) : (
+              <Select 
+                onValueChange={handleExamSelect}
+                disabled={loading}
+              >
+                <SelectTrigger className="w-[120px] sm:w-[180px]">
+                  <SelectValue 
+                    placeholder={
+                      loading ? "Loading..." : "Select Exam"
+                    } 
+                  />
+                </SelectTrigger>
+                <SelectContent className="max-h-80 overflow-y-auto">
+                  <div className="sticky top-0 bg-white border-b border-gray-100 py-2 px-2 mb-1">
+                    <Button 
+                      onClick={() => {
+                        // We need to close the dropdown first
+                        document.body.click();
+                        // Then open the add exam sheet
+                        setTimeout(() => setShowAddExam(true), 100);
+                      }}
+                      className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white flex items-center justify-center gap-2 py-1"
+                      size="sm"
+                    >
+                      <Plus className="h-4 w-4" />
+                      <span>Add More Exams</span>
+                    </Button>
+                  </div>
+                  
+                  {userExams.map(exam => (
+                    <SelectItem key={exam.id} value={exam.id}>
+                      <div className="flex items-center justify-between w-full">
+                        <span>{exam.name}</span>
+                        {exam.isPremium && (
+                          <span className="ml-2 text-xs px-2 py-0.5 rounded bg-indigo-100 text-indigo-700">
+                            Premium
+                          </span>
+                        )}
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+            <Button 
+              className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white"
+              onClick={() => handleTabChange('settings')}
+            >
+              <span className="hidden sm:inline">Upgrade</span>
+              <CreditCard className="h-4 w-4 sm:inline-block sm:hidden" />
+            </Button>
           </div>
         </div>
       </div>
-    </header>
+    </div>
   );
 };
 
