@@ -100,8 +100,6 @@
 // // // // //   );
 // // // // // };
 
-// // // // // export default SettingsTab;
-
 // // // // // File: src/components/tabs/SettingsTab.jsx
 // // // // import React from 'react';
 // // // // import { Card, CardContent } from '@/components/ui/card';
